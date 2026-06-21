@@ -1,0 +1,1762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shubham Kathavale | Portfolio</title>
+  <!-- Google Fonts: Archivo (headings), Inter (body), Share Tech Mono (terminal) -->
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #050507;
+      --card-bg: rgba(18, 18, 20, 0.65);
+      --card-hover: rgba(22, 22, 25, 0.85);
+      --text: #faf7f3;
+      --text-muted: rgba(250, 247, 243, 0.55);
+      --border: rgba(250, 247, 243, 0.08);
+      --border-hover: rgba(250, 247, 243, 0.22);
+      
+      --font-display: 'Archivo', sans-serif;
+      --font-sans: 'Inter', sans-serif;
+      --font-mono: 'Share Tech Mono', monospace;
+      
+      --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg);
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* 3D Interactive Background Canvas */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Premium Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
+    }
+
+    /* Layout grid container */
+    .grid-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-container {
+        padding: 0 20px;
+      }
+    }
+
+    /* Sticky Header Navigation */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5, 5, 7, 0.75);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      height: 80px;
+      display: flex;
+      align-items: center;
+      transition: var(--transition);
+    }
+
+    .nav-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(46, 213, 115, 0.1);
+      color: #2ed573;
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      background-color: #2ed573;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #2ed573;
+      animation: pulse 1.8s infinite;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--text);
+    }
+
+    .header-cta {
+      background-color: var(--text);
+      color: var(--bg);
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: var(--transition);
+      border: 1px solid var(--text);
+    }
+
+    .header-cta:hover {
+      background-color: transparent;
+      color: var(--text);
+    }
+
+    @media (max-width: 992px) {
+      nav {
+        display: none;
+      }
+    }
+
+    /* Global Section Title */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 100px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.95fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .hero-pretitle {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: 4rem;
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 28px;
+      text-transform: uppercase;
+    }
+
+    .hero-desc {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      max-width: 580px;
+      font-weight: 400;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 28px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background-color: var(--text);
+      color: var(--bg);
+      border: 1px solid var(--text);
+    }
+
+    .btn-primary:hover {
+      background-color: transparent;
+      color: var(--text);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--text);
+    }
+
+    /* 3D Tilt Card Base */
+    .tilt-card {
+      transform-style: preserve-3d;
+      transform: perspective(1000px);
+      transition: transform 0.1s ease-out, border-color 0.3s ease, background-color 0.3s ease;
+    }
+
+    .tilt-card-depth {
+      transform: translateZ(40px);
+      transform-style: preserve-3d;
+    }
+
+    .hero-image-card {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background-color: var(--card-bg);
+      backdrop-filter: blur(10px);
+      aspect-ratio: 4/5;
+      width: 100%;
+      max-width: 440px;
+      justify-self: center;
+    }
+
+    .hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+      filter: grayscale(10%) contrast(1.05);
+      transition: var(--transition);
+      transform: scale(1.02);
+    }
+
+    .hero-image-card:hover .hero-img {
+      filter: grayscale(0%) contrast(1.02);
+      transform: scale(1.06) translateZ(20px);
+    }
+
+    @media (max-width: 992px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 50px;
+      }
+      .hero {
+        padding: 60px 0 80px 0;
+      }
+      .hero-title {
+        font-size: 3rem;
+      }
+      .hero-image-card {
+        max-width: 380px;
+      }
+    }
+
+    /* About Section */
+    .about {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 60px;
+    }
+
+    .about-heading {
+      font-family: var(--font-display);
+      font-size: 2.25rem;
+      font-weight: 800;
+      line-height: 1.15;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+
+    .about-content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .about-p {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .about-p strong {
+      color: var(--text);
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 32px;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 768px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      .about {
+        padding: 60px 0;
+      }
+      .stats-row {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
+    /* Services Section */
+    .services {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .services-title {
+      font-family: var(--font-display);
+      font-size: 2.25rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+      letter-spacing: -0.02em;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .service-card {
+      background-color: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+    }
+
+    .service-card:hover {
+      background-color: var(--card-hover);
+      border-color: var(--border-hover);
+    }
+
+    .service-num {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      transform: translateZ(20px);
+    }
+
+    .service-name {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      transform: translateZ(30px);
+    }
+
+    .service-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+      flex-grow: 1;
+      transform: translateZ(20px);
+    }
+
+    .service-tech-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      transform: translateZ(25px);
+    }
+
+    .service-tech-tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      background: rgba(250, 247, 243, 0.04);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 4px;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 992px) {
+      .services-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .service-card {
+        padding: 36px;
+      }
+    }
+
+    /* Projects Section */
+    .projects {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .projects-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 48px;
+    }
+
+    .projects-title {
+      font-family: var(--font-display);
+      font-size: 2.25rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .project-card {
+      background-color: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .project-card:hover {
+      background-color: var(--card-hover);
+      border-color: var(--border-hover);
+    }
+
+    .project-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      transform: translateZ(20px);
+    }
+
+    .project-category {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    .project-year {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .project-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      transform: translateZ(35px);
+    }
+
+    .project-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 24px;
+      flex-grow: 1;
+      transform: translateZ(20px);
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      transform: translateZ(30px);
+    }
+
+    .project-tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      background-color: rgba(250, 247, 243, 0.04);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    @media (max-width: 992px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .projects-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+    }
+
+    /* Interactive J.A.R.V.I.S. Terminal Section */
+    .jarvis-terminal-section {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .terminal-container {
+      background-color: rgba(13, 13, 15, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.6);
+      transform-style: preserve-3d;
+    }
+
+    .terminal-header {
+      background-color: #151518;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      transform: translateZ(10px);
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .tdot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .tdot.red { background-color: #ff5f56; }
+    .tdot.yellow { background-color: #ffbd2e; }
+    .tdot.green { background-color: #27c93f; }
+
+    .terminal-title {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .terminal-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: #2ed573;
+    }
+
+    .terminal-body {
+      padding: 24px;
+      height: 360px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      background-color: rgba(10, 10, 12, 0.85);
+      transform: translateZ(15px);
+    }
+
+    .terminal-msg {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .msg-sender {
+      font-weight: 700;
+      font-size: 0.75rem;
+    }
+
+    .terminal-msg.jarvis .msg-sender {
+      color: #2ed573;
+    }
+
+    .terminal-msg.user .msg-sender {
+      color: #1e90ff;
+    }
+
+    .msg-content {
+      color: var(--text);
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .terminal-buttons {
+      padding: 16px 24px;
+      background-color: rgba(18, 18, 20, 0.9);
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      transform: translateZ(20px);
+    }
+
+    .quick-btn {
+      background-color: #1a1a1c;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .quick-btn:hover {
+      background-color: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+      transform: translateY(-2px) translateZ(10px);
+    }
+
+    .terminal-input-wrapper {
+      border-top: 1px solid var(--border);
+      background-color: rgba(13, 13, 15, 0.95);
+      display: flex;
+      align-items: center;
+      padding: 12px 24px;
+      transform: translateZ(15px);
+    }
+
+    .terminal-prompt {
+      font-family: var(--font-mono);
+      color: #2ed573;
+      margin-right: 12px;
+      font-size: 0.85rem;
+      user-select: none;
+    }
+
+    .terminal-input-field {
+      flex-grow: 1;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .terminal-send-btn {
+      background: transparent;
+      border: none;
+      color: #2ed573;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      cursor: pointer;
+      margin-left: 12px;
+      transition: var(--transition);
+    }
+
+    .terminal-send-btn:hover {
+      color: var(--text);
+    }
+
+    /* Education, Certifications & Courses */
+    .edu-certs {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .edu-certs-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 60px;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .timeline-item {
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid var(--border);
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -4px;
+      top: 6px;
+      width: 7px;
+      height: 7px;
+      background-color: var(--bg);
+      border: 1px solid var(--text);
+      border-radius: 50%;
+    }
+
+    .timeline-year {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .timeline-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .timeline-school {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .timeline-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .certs-column {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .cert-item {
+      display: flex;
+      flex-direction: column;
+      background-color: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      transition: var(--transition);
+    }
+
+    .cert-item:hover {
+      border-color: var(--border-hover);
+    }
+
+    .cert-name {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      transform: translateZ(30px);
+    }
+
+    .cert-org {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      transform: translateZ(20px);
+    }
+
+    .cert-meta {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      transform: translateZ(15px);
+    }
+
+    .courses-box {
+      margin-top: 16px;
+    }
+
+    .courses-box h4 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .courses-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .course-tag {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .course-tag::before {
+      content: "—";
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 992px) {
+      .edu-certs-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+
+    /* Contact Section */
+    .contact {
+      padding: 100px 0;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 60px;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .contact-title {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 900;
+      line-height: 1.1;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .contact-details {
+      margin: 32px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .contact-row {
+      font-size: 1.05rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .contact-row:hover {
+      opacity: 0.8;
+    }
+
+    .contact-row span {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .social-btn {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .social-btn:hover {
+      background-color: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+      transform: translateY(-2px);
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .form-group {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-label {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+
+    .form-input {
+      background-color: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+      color: var(--text);
+      font-size: 1rem;
+      font-family: var(--font-sans);
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .form-input:focus {
+      border-bottom-color: var(--text);
+    }
+
+    .form-textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    @media (max-width: 992px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .contact-title {
+        font-size: 2.5rem;
+      }
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 0;
+      background-color: #050507;
+    }
+
+    .footer-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+    }
+
+    @media (max-width: 768px) {
+      .footer-wrapper {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+    }
+
+    /* Utility Animations */
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Canvas for 3D Nodes -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Sticky Navigation Header -->
+  <header>
+    <div class="grid-container nav-wrapper">
+      <div class="logo-group">
+        <a href="#" class="logo">S. KATHAVALE</a>
+        <div class="status-badge">
+          <div class="status-dot"></div>
+          <span>ACTIVE DEPLOYMENT</span>
+        </div>
+      </div>
+      <nav>
+        <a href="#" class="active">HOME</a>
+        <a href="#about">ABOUT</a>
+        <a href="#services">SERVICES</a>
+        <a href="#projects">WORKS</a>
+        <a href="#terminal">TERMINAL</a>
+        <a href="#edu-certs">EDUCATION</a>
+        <a href="#contact">CONTACT</a>
+      </nav>
+      <a href="resume.pdf" class="header-cta" target="_blank">RESUME PDF</a>
+    </div>
+  </header>
+
+  <main class="grid-container">
+    
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <span class="hero-pretitle">/ SYSTEMS BUILDER</span>
+          <h1 class="hero-title">SOFTWARE ENGINEER & AI SYSTEM DEVELOPER</h1>
+          <p class="hero-desc">
+            I’m Shubham, a systems architect and developer based in Khopoli, India. I specialize in building proactive agentic environments, full-stack web applications, and local desktop automations that bridge logic and physical workflows.
+          </p>
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary">VIEW WORKS</a>
+            <a href="#terminal" class="btn btn-secondary">TALK TO J.A.R.V.I.S.</a>
+          </div>
+        </div>
+        <div class="hero-image-card tilt-card">
+          <div class="tilt-card-depth" style="height: 100%; width: 100%;">
+            <img src="shubham.jpg" alt="Shubham Kathavale" class="hero-img">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+      <div class="about-grid">
+        <div>
+          <span class="section-label">/ 01 STORY</span>
+          <h2 class="about-heading">DRIVEN BY DISCIPLINE & CODE.</h2>
+        </div>
+        <div class="about-content">
+          <p class="about-p">
+            I am a Computer Science & Engineering student at <strong>MIT-WPU</strong>, Pune (lateral entry student after securing my Diploma in Computer Engineering with First Class Distinction). I am deeply passionate about systems programming, memory architectures, cognitive AI pipelines, and consumer psychology.
+          </p>
+          <p class="about-p">
+            My development journey is backed by extreme self-discipline. I successfully lost over <strong>30 kg</strong> in a focused weight-loss phase—a process that instilled in me a lifelong devotion to consistency, detail, and execution. I apply this exact mindset when engineering software systems.
+          </p>
+          <div class="stats-row">
+            <div class="stat-item">
+              <span class="stat-num">3+</span>
+              <span class="stat-label">Production Apps</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">9+</span>
+              <span class="stat-label">AI Agents Engineered</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">30kg</span>
+              <span class="stat-label">Weight-Loss Journey</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+      <span class="section-label">/ 02 CAPABILITIES</span>
+      <h2 class="services-title">CORE SERVICES & EXPERTISE</h2>
+      
+      <div class="services-grid">
+        <!-- Service 1 -->
+        <div class="service-card tilt-card">
+          <span class="service-num">01 / INTEGRATION</span>
+          <h3 class="service-name">AI & Systems Integration</h3>
+          <p class="service-desc">
+            Designing event-driven multi-agent systems, integrating cognitive long-term SQLite memory, and compiling retrieval-augmented generation (RAG) indices on local repositories.
+          </p>
+          <div class="service-tech-list">
+            <span class="service-tech-tag">Groq / DeepSeek</span>
+            <span class="service-tech-tag">FAISS DB</span>
+            <span class="service-tech-tag">RAG Pipelines</span>
+            <span class="service-tech-tag">SQLite</span>
+          </div>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="service-card tilt-card">
+          <span class="service-num">02 / WEBDEV</span>
+          <h3 class="service-name">Full-Stack Development</h3>
+          <p class="service-desc">
+            Building responsive, fast, and secure web applications using modular component libraries, global state managers, real-time sync stores, and custom database bindings.
+          </p>
+          <div class="service-tech-list">
+            <span class="service-tech-tag">React.js</span>
+            <span class="service-tech-tag">Node.js</span>
+            <span class="service-tech-tag">Firebase Auth & Firestore</span>
+            <span class="service-tech-tag">Tailwind CSS</span>
+          </div>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="service-card tilt-card">
+          <span class="service-num">03 / SCRIPTING</span>
+          <h3 class="service-name">Desktop Automations</h3>
+          <p class="service-desc">
+            Creating event loop listeners, process hooks, local file indexers, custom desktop companions with PySide6 Qt GUI architectures, and voice pipeline controls.
+          </p>
+          <div class="service-tech-list">
+            <span class="service-tech-tag">Python</span>
+            <span class="service-tech-tag">PySide6 / Qt</span>
+            <span class="service-tech-tag">Whisper STT</span>
+            <span class="service-tech-tag">Edge-TTS</span>
+          </div>
+        </div>
+
+        <!-- Service 4 -->
+        <div class="service-card tilt-card">
+          <span class="service-num">04 / ANALYTICS</span>
+          <h3 class="service-name">Business Intelligence</h3>
+          <p class="service-desc">
+            Ingesting structural datasets, configuring PowerQuery ETL procedures, and designing premium reports to extract actionable insights.
+          </p>
+          <div class="service-tech-list">
+            <span class="service-tech-tag">Power BI</span>
+            <span class="service-tech-tag">Python Pandas</span>
+            <span class="service-tech-tag">MySQL</span>
+            <span class="service-tech-tag">Data Modeling</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+      <div class="projects-header">
+        <div>
+          <span class="section-label">/ 03 PORTFOLIO</span>
+          <h2 class="projects-title">FEATURED WORKS</h2>
+        </div>
+      </div>
+
+      <div class="projects-grid">
+        <!-- Project 1 -->
+        <div class="project-card tilt-card">
+          <div class="project-meta">
+            <span class="project-category">Desktop AI OS</span>
+            <span class="project-year">2026</span>
+          </div>
+          <h3 class="project-title">J.A.R.V.I.S. OS</h3>
+          <p class="project-desc">
+            A proactive personal AI Operating System. Coordinates multi-agent workflows (Memory, Task, Knowledge, Desktop, Vision) on a local PySide6 loop integrated with a glassmorphic Next.js HUD dashboard running at 60 FPS.
+          </p>
+          <div class="project-tech">
+            <span class="project-tag">PySide6</span>
+            <span class="project-tag">Next.js</span>
+            <span class="project-tag">FAISS</span>
+            <span class="project-tag">SQLite</span>
+            <span class="project-tag">Zustand</span>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-card tilt-card">
+          <div class="project-meta">
+            <span class="project-category">Agentic AI Assistant</span>
+            <span class="project-year">2026</span>
+          </div>
+          <h3 class="project-title">ARIA</h3>
+          <p class="project-desc">
+            An Agentic Reasoning &amp; Intelligence Assistant running an autonomous local/cloud execution loop. Integrates a 7-tool system suite (Playwright browse, run_python, DuckDuckGo) via a real-time glassmorphic split Canvas UI.
+          </p>
+          <div class="project-tech">
+            <span class="project-tag">Python</span>
+            <span class="project-tag">WebSockets</span>
+            <span class="project-tag">Ollama</span>
+            <span class="project-tag">Claude API</span>
+            <span class="project-tag">Playwright</span>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="project-card tilt-card">
+          <div class="project-meta">
+            <span class="project-category">Enterprise Web App</span>
+            <span class="project-year">2025</span>
+          </div>
+          <h3 class="project-title">SalonOS</h3>
+          <p class="project-desc">
+            A luxury salon operating system. Features multi-tenant database isolation, a premium client booking widget with an interactive WebGL canvas background, before/after comparison sliders, and an owner analytics dashboard.
+          </p>
+          <div class="project-tech">
+            <span class="project-tag">FastAPI</span>
+            <span class="project-tag">SQLAlchemy</span>
+            <span class="project-tag">PostgreSQL</span>
+            <span class="project-tag">WebGL</span>
+            <span class="project-tag">Chart.js</span>
+          </div>
+        </div>
+
+        <!-- Project 4 -->
+        <div class="project-card tilt-card">
+          <div class="project-meta">
+            <span class="project-category">Full-Stack Application</span>
+            <span class="project-year">2025</span>
+          </div>
+          <h3 class="project-title">Evokn Fitness</h3>
+          <p class="project-desc">
+            A full-stack fitness and macronutrient tracking dashboard. Features secure Firebase authentication, instant real-time sync with Firestore database, weight progression charts, and interactive caloric targets.
+          </p>
+          <div class="project-tech">
+            <span class="project-tag">React.js</span>
+            <span class="project-tag">Node.js</span>
+            <span class="project-tag">Firebase</span>
+            <span class="project-tag">Tailwind</span>
+          </div>
+        </div>
+
+        <!-- Project 5 -->
+        <div class="project-card tilt-card">
+          <div class="project-meta">
+            <span class="project-category">Game Systems Develop</span>
+            <span class="project-year">2024</span>
+          </div>
+          <h3 class="project-title">Noisecity RP</h3>
+          <p class="project-desc">
+            Custom systems development for a GTA V multiplayer FiveM roleplay community. Engineered player asset systems, customized economy logic, and linked active servers with MySQL databases using QBCore structures.
+          </p>
+          <div class="project-tech">
+            <span class="project-tag">Lua</span>
+            <span class="project-tag">FiveM API</span>
+            <span class="project-tag">MySQL</span>
+            <span class="project-tag">QBCore</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive J.A.R.V.I.S. Core Section -->
+    <section class="jarvis-terminal-section" id="terminal">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <span class="section-label">/ 04 INTERACTION</span>
+        <h2 class="projects-title">J.A.R.V.I.S. CORE SIMULATOR</h2>
+      </div>
+
+      <div class="terminal-container tilt-card">
+        <!-- Terminal Header -->
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <div class="tdot red"></div>
+            <div class="tdot yellow"></div>
+            <div class="tdot green"></div>
+          </div>
+          <span class="terminal-title">VAULT_PORT // DIRECT_ACCESS_SSH</span>
+          <div class="terminal-status">
+            <span class="status-dot"></span>
+            <span>SYSTEM ONLINE</span>
+          </div>
+        </div>
+
+        <!-- Terminal Chat Box -->
+        <div class="terminal-body" id="chat-box">
+          <div class="terminal-msg jarvis">
+            <span class="msg-sender">J.A.R.V.I.S.</span>
+            <div class="msg-content">Welcome back, user. Connection established. I am synchronized with Shubham's system records. Ask me anything about his B.Tech, core skills, projects, or certifications.</div>
+          </div>
+        </div>
+
+        <!-- Suggestions buttons -->
+        <div class="terminal-buttons">
+          <button class="quick-btn" onclick="sendPrompt('Explain the JARVIS OS Architecture')">JARVIS OS Architecture</button>
+          <button class="quick-btn" onclick="sendPrompt('Tell me about ARIA Agentic Assistant')">ARIA Agentic Assistant</button>
+          <button class="quick-btn" onclick="sendPrompt('What stack does SalonOS use')">SalonOS Tech Stack</button>
+          <button class="quick-btn" onclick="sendPrompt('What stack does Evokn Fitness use')">Evokn Fitness Stack</button>
+          <button class="quick-btn" onclick="sendPrompt('Show details about GTA V RP Noisecity RP')">Noisecity RP GTA V</button>
+        </div>
+
+        <!-- Terminal Input Wrapper -->
+        <div class="terminal-input-wrapper">
+          <span class="terminal-prompt">ssh user@jarvis:~$</span>
+          <input type="text" class="terminal-input-field" id="terminal-input" placeholder="Type command or query..." onkeydown="if(event.key === 'Enter') handleTerminalSubmit()">
+          <button class="terminal-send-btn" onclick="handleTerminalSubmit()">SUBMIT</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education, Certifications & Courses -->
+    <section class="edu-certs" id="edu-certs">
+      <div class="edu-certs-grid">
+        <!-- Education column -->
+        <div>
+          <span class="section-label">/ 05 KNOWLEDGE</span>
+          <h2 class="projects-title" style="margin-bottom: 40px;">ACADEMIC TIMELINE</h2>
+          
+          <div class="timeline">
+            <!-- Timeline Item 1 -->
+            <div class="timeline-item">
+              <span class="timeline-year">2024 - 2028 (Expected)</span>
+              <h3 class="timeline-title">B.Tech in Computer Science Engineering</h3>
+              <div class="timeline-school">MIT World Peace University (MIT-WPU), Pune</div>
+              <p class="timeline-desc">
+                Direct Second Year entrant (Lateral Entry). Extensive focus on Database Management Systems (DBMS), Design & Analysis of Algorithms (DAA), Microprocessor and Microcontroller Architecture (MMA), and Data Structures.
+              </p>
+            </div>
+
+            <!-- Timeline Item 2 -->
+            <div class="timeline-item">
+              <span class="timeline-year">2021 - 2024</span>
+              <h3 class="timeline-title">Diploma in Computer Engineering</h3>
+              <div class="timeline-school">B.L. Patil Polytechnic | MSBTE Board</div>
+              <p class="timeline-desc">
+                Completed with First Class Distinction. Focused on fundamental logic structures, operating systems, and OOP paradigms.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Certs & Courses column -->
+        <div class="certs-column">
+          <div>
+            <span class="section-label">/ 06 CREDENTIALS</span>
+            <h2 class="projects-title" style="margin-bottom: 40px;">CERTIFICATIONS</h2>
+            
+            <div class="cert-item tilt-card">
+              <h3 class="cert-name">Oracle Cloud Infrastructure 2025 Certified Foundations Associate</h3>
+              <div class="cert-org">Oracle</div>
+              <div class="cert-meta">Issued: Aug 2025 · Expires: Aug 2035 | ID: OC6817049</div>
+            </div>
+          </div>
+
+          <div class="courses-box">
+            <h4>ACADEMIC COURSES</h4>
+            <div class="courses-list">
+              <div class="course-tag">Bioscience Using Python Programming (BTU10010) — MIT-WPU</div>
+              <div class="course-tag">Business Analytics using Power BI (BBA20180) — MIT-WPU</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <span class="section-label">/ 07 CONTACT</span>
+          <h2 class="contact-title">LET’S BUILD SOMETHING GREAT.</h2>
+          <p class="about-p" style="margin-bottom: 32px;">
+            Have an open role, an internship opportunity, or want to discuss automated agent workflows? Reach out through the form or any of my active channels.
+          </p>
+          
+          <div class="contact-details">
+            <a href="mailto:shubham18october@gmail.com" class="contact-row">
+              <span>Email Address</span>
+              shubham18october@gmail.com
+            </a>
+            <a href="tel:+918055663307" class="contact-row">
+              <span>Phone Number</span>
+              +91 8055663307
+            </a>
+          </div>
+
+          <div class="social-links">
+            <a href="https://linkedin.com/in/shubham-kathavale-1b6a8b284/" target="_blank" class="social-btn">LinkedIn</a>
+            <a href="https://github.com/ShubTriple7" target="_blank" class="social-btn">GitHub</a>
+            <a href="https://instagram.com/Shub.Mvp" target="_blank" class="social-btn">Instagram</a>
+          </div>
+        </div>
+
+        <div>
+          <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully! (Note: This is a static portfolio simulation.)');">
+            <div class="form-group">
+              <label class="form-label" for="form-name">Name</label>
+              <input type="text" id="form-name" class="form-input" required placeholder="Your name">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="form-email">Email Address</label>
+              <input type="email" id="form-email" class="form-input" required placeholder="you@example.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="form-message">Your Message</label>
+              <textarea id="form-message" class="form-input form-textarea" required placeholder="Describe your project, team, or inquiry..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="align-self: flex-start;">SEND MESSAGE</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="grid-container footer-wrapper">
+      <span class="footer-copy">© 2026 SHUBHAM KATHAVALE. DEPLOYED LOCALLY // SECURE.</span>
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#projects">Works</a>
+        <a href="#terminal">Terminal</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Chatbot & 3D Interactive Logic -->
+  <script>
+    /* J.A.R.V.I.S. Chatbot Simulation */
+    const jarvisDatabase = {
+      "shubham's b.tech at mit-wpu": "Shubham is currently pursuing his Bachelor of Technology (B.Tech) in Computer Science & Engineering at MIT World Peace University (MIT-WPU) in Pune. Having completed his Diploma, he joined as a Direct Second Year (Lateral Entry) student. He studies core CS concepts like Design & Analysis of Algorithms (DAA), DBMS, Data Structures, Microprocessor and Microcontroller Architecture (MMA), and Bioinformatics.",
+      "jarvis os architecture": "The J.A.R.V.I.S. desktop application is built with a PySide6 Qt GUI hosting a Next.js frontend (V.A.U.L.T.) on a QWebEngineView. It employs an event-driven Multi-Agent System where specialized agents (Memory Agent, Knowledge Agent, Task Agent, Desktop Agent, and Vision Agent) execute tasks under the coordination of an Executive Agent and a dynamic Skill Registry.",
+      "aria agentic assistant": "ARIA (Agentic Reasoning & Intelligence Assistant) is an advanced local/cloud agent built with a Python backend using WebSockets, Ollama (Qwen2.5:7b), and a headless Playwright automation interface. It implements an autonomous execution loop with 7 local system tools (Python interpreter, DuckDuckGo search, file operations) and a Cyber Obsidian glassmorphic UI featuring a live code/preview split Canvas.",
+      "salonos use": "SalonOS is a luxury multi-tenant Salon Operating System built with Python 3.13, FastAPI, and SQLAlchemy. It isolates customer booking and inventory data per tenant via database foreign keys. Its frontend is built with vanilla HTML/CSS/JS, incorporating a premium WebGL canvas mesh, before/after slider transformations, and Chart.js analytics.",
+      "evokn fitness use": "Evokn Fitness is one of Shubham's major full-stack web projects. It's built using React.js for the UI, Tailwind CSS for sleek styling, Node.js for backend logic, and Firebase for User Authentication, Firestore real-time databases, and Goal tracking analytics.",
+      "evokn fitness stack": "Evokn Fitness is one of Shubham's major full-stack web projects. It's built using React.js for the UI, Tailwind CSS for sleek styling, Node.js for backend logic, and Firebase for User Authentication, Firestore real-time databases, and Goal tracking analytics.",
+      "gta v rp noisecity rp": "Shubham managed GTA V Roleplay (RP) communities. He worked extensively on the development of 'Noisecity RP' (a GTA V FiveM RP Server), building custom roleplay features, character vitals, and player transaction systems utilizing LUA scripts, QBCore, and MySQL.",
+      "gta v noisecity rp": "Shubham managed GTA V Roleplay (RP) communities. He worked extensively on the development of 'Noisecity RP' (a GTA V FiveM RP Server), building custom roleplay features, character vitals, and player transaction systems utilizing LUA scripts, QBCore, and MySQL.",
+      "aria": "ARIA (Agentic Reasoning & Intelligence Assistant) is an advanced local/cloud agent built with a Python backend using WebSockets, Ollama (Qwen2.5:7b), and a headless Playwright automation interface.",
+      "salonos": "SalonOS is a luxury multi-tenant Salon Operating System built with Python 3.13, FastAPI, and SQLAlchemy."
+    };
+
+    function sendPrompt(query) {
+      const chatBox = document.getElementById('chat-box');
+      
+      // User message
+      const userMsgDiv = document.createElement('div');
+      userMsgDiv.className = 'terminal-msg user';
+      userMsgDiv.innerHTML = `
+        <span class="msg-sender">USER</span>
+        <div class="msg-content">${query}</div>
+      `;
+      chatBox.appendChild(userMsgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      // Jarvis typing reply
+      setTimeout(() => {
+        const key = query.toLowerCase().replace("tell me about ", "").replace("explain the ", "").replace("what stack does ", "").replace("show details about ", "").trim();
+        const responseText = jarvisDatabase[key] || "Searching database... Context loaded. Shubham Kathavale is an MIT-WPU Computer Science Engineer, systems developer, and founder of this J.A.R.V.I.S. system. Let me know if you want details on his B.Tech, GTA RP, or fitness coding projects.";
+        
+        const jarvisMsgDiv = document.createElement('div');
+        jarvisMsgDiv.className = 'terminal-msg jarvis';
+        jarvisMsgDiv.innerHTML = `
+          <span class="msg-sender">J.A.R.V.I.S.</span>
+          <div class="msg-content" id="typing-msg"></div>
+        `;
+        chatBox.appendChild(jarvisMsgDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        const typingDiv = jarvisMsgDiv.querySelector('#typing-msg');
+        let index = 0;
+        
+        function type() {
+          if (index < responseText.length) {
+            typingDiv.textContent += responseText.charAt(index);
+            index++;
+            chatBox.scrollTop = chatBox.scrollHeight;
+            setTimeout(type, 8);
+          } else {
+            typingDiv.removeAttribute('id');
+          }
+        }
+        type();
+      }, 400);
+    }
+
+    function handleTerminalSubmit() {
+      const input = document.getElementById('terminal-input');
+      const val = input.value.trim();
+      if (val) {
+        sendPrompt(val);
+        input.value = '';
+      }
+    }
+
+    /* 3D Tilt Card Component Interaction */
+    const tiltCards = document.querySelectorAll('.tilt-card');
+    
+    tiltCards.forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left; // Mouse x position relative to card
+        const y = e.clientY - rect.top;  // Mouse y position relative to card
+        const w = rect.width;
+        const h = rect.height;
+        
+        // Calculate rotation angles (-12 to 12 degrees)
+        const rotateX = ((y / h) - 0.5) * -24;
+        const rotateY = ((x / w) - 0.5) * 24;
+        
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+      });
+    });
+
+    /* 3D Canvas Background Node Network */
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    // Mouse coordinates tracking
+    let mouse = { x: width / 2, y: height / 2, targetX: width / 2, targetY: height / 2 };
+    window.addEventListener('mousemove', e => {
+      mouse.targetX = e.clientX;
+      mouse.targetY = e.clientY;
+    });
+
+    // Particle nodes configuration
+    const particleCount = 65;
+    const particles = [];
+    const connectionDist = 120;
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.z = Math.random() * 600 + 100; // 3D depth layer
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = (Math.random() - 0.5) * 0.4;
+        this.radius = Math.random() * 1.5 + 0.5;
+        this.alpha = Math.random() * 0.3 + 0.1;
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Bounce/Wrap boundaries
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+      }
+
+      draw(offsetX, offsetY) {
+        // Project 3D coordinates onto 2D plane with perspective scale
+        const scale = 400 / (400 + this.z);
+        const projX = (this.x - width / 2 + offsetX) * scale + width / 2;
+        const projY = (this.y - height / 2 + offsetY) * scale + height / 2;
+        
+        ctx.beginPath();
+        ctx.arc(projX, projY, this.radius * scale * 2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(250, 247, 243, ${this.alpha * scale})`;
+        ctx.fill();
+      }
+    }
+
+    // Initialize nodes
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    // Anim loop
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      
+      // Easing mouse coordinates for smooth 3D tilt perspective shifting
+      mouse.x += (mouse.targetX - mouse.x) * 0.05;
+      mouse.y += (mouse.targetY - mouse.y) * 0.05;
+
+      const offsetX = (mouse.x - width / 2) * -0.15;
+      const offsetY = (mouse.y - height / 2) * -0.15;
+
+      // Update & draw particles
+      particles.forEach(p => {
+        p.update();
+        p.draw(offsetX, offsetY);
+      });
+
+      // Draw projected connections
+      ctx.lineWidth = 0.5;
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const p1 = particles[i];
+          const p2 = particles[j];
+
+          // 3D Distance calculation
+          const dx = p1.x - p2.x;
+          const dy = p1.y - p2.y;
+          const dz = p1.z - p2.z;
+          const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+          if (dist < connectionDist) {
+            const scale1 = 400 / (400 + p1.z);
+            const scale2 = 400 / (400 + p2.z);
+            
+            const projX1 = (p1.x - width / 2 + offsetX) * scale1 + width / 2;
+            const projY1 = (p1.y - height / 2 + offsetY) * scale1 + height / 2;
+            const projX2 = (p2.x - width / 2 + offsetX) * scale2 + width / 2;
+            const projY2 = (p2.y - height / 2 + offsetY) * scale2 + height / 2;
+
+            const alpha = (1 - dist / connectionDist) * 0.15 * Math.min(scale1, scale2);
+            ctx.beginPath();
+            ctx.moveTo(projX1, projY1);
+            ctx.lineTo(projX2, projY2);
+            ctx.strokeStyle = `rgba(250, 247, 243, ${alpha})`;
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
